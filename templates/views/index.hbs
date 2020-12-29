@@ -1,0 +1,51 @@
+<!--
+to enable nodemon to restart when changing hbs file extension, we need to execute the following command (-e for extensions)
+nodemon src/app.js -e js,hbs -->
+
+<!--param title (in the header partial) is accessed from the hbs params in app.js and this substitution is done by hbs in the server side
+Let's say I need to retrieve a list of a user's favorite posts and display it on the /posts. With Express hbs,
+I can perform a database query right then and there, then in the routes file, pass in the query via:
+
+res.render('index', { favoritePosts: databaseQuery });
+and then in the hbs templates file:
+{{databaseQuery}}  the favorite posts
+React is all on the front end though, so wouldn't it be difficult for it to query the database?
+
+but using REACT, You can make json endpoints for instance. Before you'd return a HTML blob, now you return JSON, and REACT will read JSON on client
+
+-->
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Weather</title>
+
+    <!-- this will show an icon on the title of the page -->
+    <link rel="icon" href="/img/weather.png">
+
+    <link rel="stylesheet" href="/css/styles.css">
+ <!--we need to add the defer attribute to ensure the DOM is rendered before the JS executes so the form and input elements are available -->
+    <script  src="/js/app.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js" defer></script>
+</head>
+
+<body>
+    <div class="main-content">
+        <!-- header here is a part (HBS partial or template) that is included all pages -->
+        {{>header}}
+
+        <p>Use this site to get your weather!</p>
+        <form>
+        <input name="search" placeholder="type location">
+        <button name="submit">Search</button>
+        </form>
+        <p id="message-1"></p>
+        <p id="message-2"></p>
+    </div>
+
+    {{>footer}}
+</body>
+
+</html>
