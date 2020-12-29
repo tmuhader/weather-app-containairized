@@ -1,0 +1,6 @@
+FROM node:14.2.0-alpine
+RUN mkdir -p /wheatherApp
+WORKDIR /wheatherApp
+EXPOSE 3000
+ENTRYPOINT ["npm"]
+CMD ["start"]
