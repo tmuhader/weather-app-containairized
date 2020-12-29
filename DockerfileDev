@@ -1,9 +1,6 @@
 FROM node:14.2.0-alpine
 RUN mkdir -p /wheatherApp
 WORKDIR /wheatherApp
-COPY package.json ./
-RUN npm install
-RUN npm install nodemon -g
 EXPOSE 3000
 ENTRYPOINT ["npm"]
 CMD ["start"]

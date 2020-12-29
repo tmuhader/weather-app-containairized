@@ -11,6 +11,11 @@ const app = express();
 //process is an object provided by NodeJS to access the current process variables similar to document in the Browser Env.
 const port = process.env.PORT || 3000;
 // Define paths for Express config
+//__driname returns a path to the directory of the current script in a cross-platform way
+//__filename returns the path to the current script file
+//these variables are provided by the wrapper function that wrap our script in the browser
+//// __dirname and __filename like other globals provided by NodeJS (e.g module) when it wraps our code by a IIFE function
+
 const publicDirectoryPath = path.join(__dirname, "../public");
 const viewsPath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
@@ -27,10 +32,17 @@ app.set("views", viewsPath);
 hbs.registerPartials(partialsPath);
 
 // Setup static directory to serve. no need to setup route for the pages in this directory
-//configure express to serve up an entire directory (public) of static assets (HTML, JS, images, CSS...)
-//__driname returns a path to the directory of the current script
-//__filename returns the path to the current script file
-//these variables are provided by the wrapper function that wrap our script in the browser
+//configure express to serve up an entire directory (public) of static assets (HTML, JS, images, CSS...).
+// Express assumes that this directory has an index.html file that will be served in case of a Get request on the
+// root application URL. Express infers the type of the file (MIME Type) from the file extension
+//You can call static() multiple times to serve multiple directories. If a file cannot be found by one middleware
+// function then it will simply be passed on to the subsequent middleware (the order that middleware is called is
+// based on your declaration order).
+//app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
+// app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
+// app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
+//You can also create a virtual prefix for your static URLs, rather than having the files added to the base URL.
+// For example, here we specify a mount path so that the files are loaded with the prefix "/media": app.use('/media', express.static('public'));
 app.use(express.static(publicDirectoryPath));
 
 //hbs renderer convert the index.hbs into HTML page. the params passed here will be accessible in the index.hbs page
@@ -65,7 +77,7 @@ app.get("/weather", (req, res) => {
   //using Object destructuring syntax, see page 264 in JS book. this is similar to let address = req.query.address (dubai is the default value)
   //use URL: http://localhost:3000/weather?address=dubai
   //provide default value to address (the destructured object property)
-  let { address = "nantes" } = req.query;
+  let { address = "dubai" } = req.query;
   //to debug use command; node inspect src/app.js and then open chrome and type:  chrome://inspect, add the app folder to the Browser working directory.
   // this will allow the Node.js app to run in the Browser as any client side JS script
   debugger;
